@@ -12,20 +12,10 @@ const App: React.FC = () => {
 export default App;
  */
 
-import './index.css';
-
-const App: React.FC = () => {
+export default function App() {
   return (
-    <>
-
-        <div className="bg-red-500 text-white p-4">
-          ROCKET
-        </div>
-        <div className="bg-green-800 text-yellow-700" >
-          WORKING MOTHER
-        </div>
-    </>
-  );
-};
-
-export default App;
+    <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+  )
+}
