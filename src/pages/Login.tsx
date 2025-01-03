@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography, Box } from '@mui/material';
@@ -6,30 +5,49 @@ import { Button, TextField, Typography, Box } from '@mui/material';
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (email === 'admin@example.com' && password === 'password') {
-      localStorage.setItem('authToken', 'dummy-token'); // Save token to localStorage
-      navigate('/dashboard'); // Redirect after login
-    } else {
-      alert('Invalid credentials');
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('authToken', data.token); // Save token in localStorage
+        navigate('/dashboard'); // Redirect to the dashboard
+      } else {
+        setError('Invalid email or password'); // Handle non-2xx responses
+      }
+    } catch (error) {
+      setError('Something went wrong. Please try again later.'); // Handle network errors
+      console.error('Login error:', error);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <Box
         className="p-6 bg-gray-800 text-white rounded shadow-lg"
         sx={{ width: '100%', maxWidth: 400 }}
       >
-        <div className="bg-red-500 text-white p-4">
-    Tailwind Test
-  </div>
-        <div className='border-t-neutral-700 bg-red-700'>HELLO</div>
         <Typography variant="h5" component="h1" gutterBottom className="text-center font-bold">
           Login
         </Typography>
+        {error && (
+          <Typography
+            variant="body2"
+            className="text-red-500 text-center mb-4"
+          >
+            {error}
+          </Typography>
+        )}
         <TextField
           fullWidth
           variant="outlined"
@@ -38,7 +56,10 @@ const Login: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           InputLabelProps={{ style: { color: '#bdbdbd' } }}
-          sx={{ input: { color: 'white' }, '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#bdbdbd' } } }}
+          sx={{
+            input: { color: 'white' },
+            '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#bdbdbd' } },
+          }}
         />
         <TextField
           fullWidth
@@ -49,7 +70,10 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           InputLabelProps={{ style: { color: '#bdbdbd' } }}
-          sx={{ input: { color: 'white' }, '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#bdbdbd' } } }}
+          sx={{
+            input: { color: 'white' },
+            '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#bdbdbd' } },
+          }}
         />
         <Button
           fullWidth
