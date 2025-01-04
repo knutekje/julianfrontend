@@ -1,6 +1,6 @@
 // src/pages/Availability.tsx
 import React, { useState } from 'react';
-import { Typography, TextField, Button, Grid, Card, CardContent } from '@mui/material';
+import { Typography, TextField, Button  } from '@mui/material';
 
 const Availability: React.FC = () => {
   const [date, setDate] = useState<string>('');
@@ -70,9 +70,9 @@ const Availability: React.FC = () => {
       )}
 
       {/* Availability Grid */}
-      <Grid container spacing={4}>
+  {/*     <Grid2 container spacing={4}>
         {availability.map((room) => (
-          <Grid item xs={12} md={6} key={room.id}>
+          <Grid2 item xs={12} md={6} key={room.id}>
             <Card className="bg-gray-800 text-white">
               <CardContent>
                 <Typography variant="h6" className="font-bold">
@@ -83,9 +83,9 @@ const Availability: React.FC = () => {
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
+          </Grid2>
         ))}
-      </Grid>
+      </Grid2> */}
 
       {/* No Data Message */}
       {availability.length === 0 && !error && (

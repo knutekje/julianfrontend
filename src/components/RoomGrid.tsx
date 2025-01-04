@@ -37,11 +37,11 @@ const RoomGrid: React.FC = () => {
 
   const getStatusColor = (status: string): string => {
     switch (status) {
-      case 'Occupied':
+      case 'Out of Service':
         return 'bg-red-500';
-      case 'Under Maintenance':
+      case 'In Need of Cleaning':
         return 'bg-yellow-500';
-      case 'Available':
+      case 'Clean':
         return 'bg-green-500';
       default:
         return 'bg-gray-500';

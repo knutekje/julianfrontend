@@ -7,6 +7,7 @@ import Availability from '../pages/Availability';
 import {Reservation} from '../pages/Reservation';
 import Layout from '../components/Layout';
 import ProtectedRoute from '../components/ProtectedRoute';
+import Booking from '../pages/BookingPage';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -36,6 +37,17 @@ const AppRoutes: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/bookings"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Booking />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/reservation"
           element={

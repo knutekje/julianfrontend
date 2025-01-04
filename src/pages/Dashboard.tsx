@@ -1,55 +1,70 @@
 // src/pages/Dashboard.tsx
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Typography,  Button, Card, CardContent, Grid2 } from '@mui/material';
+import React, { useState } from 'react';
+import { Typography, Tabs, Tab, Box, Card, CardContent } from '@mui/material';
 import RoomGrid from '../components/RoomGrid';
+import OccupancyTable from '../components/OccupancyTable';
+import RoomAvailability from '../components/RoomAvailability';
 
 const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState(0);
 
-  const handleNavigation = (path: string) => {
-    navigate(path);
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
   };
 
   return (
-    <div className="p-6 bg-gray-900 text-white min-h-screen">
-      <Typography variant="h4" component="h1" gutterBottom className="font-bold text-center">
-        Julian PMS 
-      </Typography>
-      <Typography variant="body1" className="text-center mb-8">
-      Dashboard
-      </Typography>
-
-      <Grid2 container spacing={4}>
-        {/* Availability */}
-          <Card className="bg-gray-800 text-white">
+    <div style={{ padding: '24px', backgroundColor: '#1e1e2d', color: '#fff' }}>
+  
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 2 }}>
+        <Tabs value={activeTab} onChange={handleTabChange} centered>
+          <Tab label="Room Status" />
+          <Tab label="Occupancy" />
+          <Tab label="Guest Arrival List" />
+          <Tab label="Current Prices" />
+          <Tab label="Summary of Today" />
+        </Tabs>
+      </Box>
+      <Box>
+        {activeTab === 0 && (
+          <Card>
             <CardContent>
-             
-             
-              <RoomGrid/>
-             
+              <RoomGrid />
             </CardContent>
           </Card>
-
-        {/* Reservations */}
-          <Card className="bg-gray-800 text-white">
+        )}
+        {activeTab === 1 && (
+          <Card className="bg-gray-800 text-white mb-4">
             <CardContent>
-              <Typography variant="h5" className="font-bold">
-                Manage Reservations
-              </Typography>
-              <Typography variant="body2" className="text-gray-400 mb-4">
-                Create and view reservations for your property.
-              </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleNavigation('/reservation')}
-              >
-                Go to Reservations
-              </Button>
+              <OccupancyTable />
             </CardContent>
           </Card>
-      </Grid2>
+        )}
+        {activeTab === 2 && (
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Guest Arrival List</Typography>
+              Guest arrival list will be displayed here.
+              <RoomAvailability/>
+            </CardContent>
+          </Card>
+        )}
+        {activeTab === 3 && (
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Current Prices</Typography>
+              Pricing details will be displayed here.
+            </CardContent>
+          </Card>
+        )}
+        {activeTab === 4 && (
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Summary of Today</Typography>
+              Summary of today's checkouts and in-house guests will be displayed here.
+            </CardContent>
+          </Card>
+        )}
+      </Box>
     </div>
   );
 };

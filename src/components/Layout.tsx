@@ -1,6 +1,10 @@
-// src/components/Layout.tsx
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import BookIcon from '@mui/icons-material/Book';
 import { useNavigate } from 'react-router-dom';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -13,31 +17,62 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-      {/* App Bar */}
-      <AppBar position="static" className="bg-blue-600">
+      {/* AppBar */}
+      <AppBar position="static" className="bg-blue-700">
         <Toolbar>
-          <Typography variant="h6" component="div" className="flex-grow">
+          <Typography
+            variant="h6"
+            component="div"
+            className="flex-grow font-bold tracking-wide"
+          >
             Julian PMS
           </Typography>
-          <Button color="inherit" onClick={() => navigate('/dashboard')}>
+
+          {/* Buttons */}
+          <Button
+            color="inherit"
+            startIcon={<DashboardIcon />}
+            onClick={() => navigate('/dashboard')}
+            className="rounded-full px-3 py-2"
+          >
             Dashboard
           </Button>
-          <Button color="inherit" onClick={() => navigate('/availability')}>
+          <Button
+            color="inherit"
+            startIcon={<EventAvailableIcon />}
+            onClick={() => navigate('/availability')}
+            className="rounded-full px-3 py-2"
+          >
             Availability
           </Button>
-          <Button color="inherit" onClick={() => navigate('/reservation')}>
+          <Button
+            color="inherit"
+            startIcon={<MeetingRoomIcon />}
+            onClick={() => navigate('/reservation')}
+            className="rounded-full px-3 py-2"
+          >
             Reservations
           </Button>
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
+          <Button
+            color="inherit"
+            startIcon={<BookIcon />}
+            onClick={() => navigate('/bookings')}
+            className="rounded-full px-3 py-2"
+          >
+            Bookings
           </Button>
+          <IconButton
+            color="inherit"
+            onClick={handleLogout}
+            className="rounded-full"
+          >
+            <LogoutIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
 
       {/* Main Content */}
-      <Box component="main" className="flex-grow p-6">
-        {children}
-      </Box>
+      <main className="flex-grow p-6">{children}</main>
     </div>
   );
 };
