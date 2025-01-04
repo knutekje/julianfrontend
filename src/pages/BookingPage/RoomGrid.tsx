@@ -1,15 +1,14 @@
 import React from 'react';
 import { Typography, Card, CardContent, Grid } from '@mui/material';
+import { Room } from '../../types';
 
-export interface Room {
-  id: number;
-  roomNumber: string;
-  roomType: string;
-  capacity: number;
-  price: number;
+
+interface RoomGridProps {
+  rooms: Room[];
+  onRoomClick: (room: Room) => void;
 }
 
-const RoomGrid: React.FC<{ rooms: Room[]; onRoomClick: (room: Room) => void }> = ({ rooms, onRoomClick }) => {
+const RoomGrid: React.FC<RoomGridProps> = ({ rooms, onRoomClick }) => {
   return (
     <div>
       <Typography variant="h6" sx={{ mb: 4 }}>
@@ -32,7 +31,9 @@ const RoomGrid: React.FC<{ rooms: Room[]; onRoomClick: (room: Room) => void }> =
                 <Typography variant="h6">Room {room.roomNumber}</Typography>
                 <Typography>Type: {room.roomType}</Typography>
                 <Typography>Capacity: {room.capacity}</Typography>
-                <Typography>Price: ${room.price.toFixed(2)}</Typography>
+                <Typography>
+                  Price: {room.price ? `$${room.price.toFixed(2)}` : 'N/A'}
+                </Typography>
               </CardContent>
             </Card>
           </Grid>

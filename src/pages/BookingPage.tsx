@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Stack, TextField, Typography, Box } from '@mui/material';
 import BookingDetailsDialog from './BookingPage/BookingDialog';
-import BookingStepOne from './BookingPage/BookingStepOne';
 import RoomGrid from './BookingPage/RoomGrid';
 
 interface Room {
@@ -15,27 +15,121 @@ const BookingPage: React.FC = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [checkIn, setCheckIn] = useState<string>('');
+  const [checkOut, setCheckOut] = useState<string>('');
 
-  const handleSearch = async (people: number, checkIn: string, checkOut: string) => {
-    const response = await fetch(`/api/bookings/available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`);
-    const data: Room[] = await response.json();
-    setRooms(data);
-  };
+  // Automatically fetch available rooms when both dates are filled
+  useEffect(() => {
+    const fetchRooms = async () => {
+      if (checkIn && checkOut && new Date(checkIn) < new Date(checkOut)) {
+        try {
+          const response = await fetch(`http://localhost:8082/api/bookings/available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`);
+          if (response.ok) {
+            const data: Room[] = await response.json();
+            setRooms(data);
+          } else {
+            console.error('Failed to fetch available rooms');
+            setRooms([]);
+          }
+        } catch (error) {
+          console.error('Error fetching rooms:', error);
+          setRooms([]);
+        }
+      } else {
+        setRooms([]);
+      }
+    };
+
+    fetchRooms();
+  }, [checkIn, checkOut]);
 
   const handleRoomClick = (room: Room) => {
     setSelectedRoom(room);
     setDialogOpen(true);
   };
 
-  const handleBookingSubmit = (details: { roomNumber: string; guestName: string; specialRequests: string }) => {
-    console.log('Booking details:', details);
-    // Submit booking logic here
+  const handleBookingSubmit = async (details: { roomNumber: string; guestName: string; specialRequests: string }) => {
+    try {
+      const payload = {
+        ...details,
+        checkInDate: checkIn,
+        checkOutDate: checkOut,
+        status: 'Pending',
+      };
+
+      const response = await fetch('http://localhost:8082/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert('Booking successfully created!');
+        setDialogOpen(false);
+        setRooms([]); // Optionally clear rooms after booking
+      } else {
+        const error = await response.json();
+        alert(`Failed to create booking: ${error.message || 'Unknown error'}`);
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      alert('An unexpected error occurred while creating the booking.');
+    }
   };
 
   return (
-    <div>
-      <BookingStepOne onSearch={handleSearch} />
-      {rooms.length > 0 && <RoomGrid rooms={rooms} onRoomClick={handleRoomClick} />}
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', // Full height of the viewport
+        bgcolor: 'background.default',
+        color: 'text.primary',
+        padding: 2,
+      }}
+    >
+      <Stack
+        spacing={2}
+        sx={{
+          width: '400px', // Restrict the width
+          textAlign: 'center',
+          bgcolor: 'background.paper',
+          p: 3,
+          borderRadius: 2,
+          boxShadow: 3,
+        }}
+      >
+        <Typography variant="h5" gutterBottom>
+          Enter Booking Details
+        </Typography>
+        <TextField
+          label="Check-In Date"
+          type="date"
+          value={checkIn}
+          onChange={(e) => setCheckIn(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+        />
+        <TextField
+          label="Check-Out Date"
+          type="date"
+          value={checkOut}
+          onChange={(e) => setCheckOut(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+        />
+      </Stack>
+      {rooms.length > 0 ? (
+        <RoomGrid rooms={rooms} onRoomClick={handleRoomClick} />
+      ) : (
+        checkIn &&
+        checkOut && (
+          <Typography variant="body1" color="textSecondary" sx={{ mt: 2 }}>
+            No available rooms. Please adjust the dates.
+          </Typography>
+        )
+      )}
       {selectedRoom && (
         <BookingDetailsDialog
           open={dialogOpen}
@@ -44,7 +138,7 @@ const BookingPage: React.FC = () => {
           onSubmit={handleBookingSubmit}
         />
       )}
-    </div>
+    </Box>
   );
 };
 

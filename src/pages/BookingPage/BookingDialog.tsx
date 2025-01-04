@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
-
-interface Room {
-  id: number;
-  roomNumber: string;
-  roomType: string;
-  capacity: number;
-  price: number;
-}
+import { Room } from '../../types';
 
 interface BookingDetailsDialogProps {
   open: boolean;
