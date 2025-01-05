@@ -34,6 +34,7 @@ const CustomAppBar: React.FC = () => {
         >
           Availability
         </Button>
+        
         <Button
           startIcon={<MeetingRoomIcon />}
           onClick={() => navigate('/reservation')}

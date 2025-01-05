@@ -4,6 +4,7 @@ import { Typography, Tabs, Tab, Box, Card, CardContent } from '@mui/material';
 import RoomGrid from '../components/RoomGrid';
 import OccupancyTable from '../components/OccupancyTable';
 import RoomAvailability from '../components/RoomAvailability';
+import DirtyRoomsPage from './DirtyRoomsPage';
 
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -52,7 +53,7 @@ const Dashboard: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h6">Current Prices</Typography>
-              Pricing details will be displayed here.
+              <DirtyRoomsPage/>
             </CardContent>
           </Card>
         )}
