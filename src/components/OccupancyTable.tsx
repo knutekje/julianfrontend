@@ -14,6 +14,7 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
+import { bookingApiUrl } from '../uris';
 
 interface Reservation {
   id: number;
@@ -32,7 +33,8 @@ const OccupancyTable: React.FC = () => {
 
   const fetchReservations = async () => {
     try {
-      const response = await fetch('http://localhost:8082/api/bookings');
+      const response = await fetch(`${bookingApiUrl}`);
+      //const response = await fetch('http://localhost:8082/api/bookings');
       if (response.ok) {
         const data = await response.json();
         setReservations(data);

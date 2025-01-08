@@ -1,6 +1,7 @@
 // src/components/RoomGrid.tsx
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
+import { roomApiUrl } from '../uris';
 
 interface Room {
   id: number;
@@ -18,7 +19,8 @@ const RoomGrid: React.FC = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch('http://localhost:8081/api/rooms/');
+      //${roomApiUrl}
+      const response = await fetch(`${roomApiUrl}`);
       if (response.ok) {
         const data = await response.json();
         setRooms(data);

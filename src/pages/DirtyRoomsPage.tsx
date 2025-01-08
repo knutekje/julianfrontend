@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { bookingApiUrl } from '../uris';
 
 interface Room {
   id: number;
@@ -11,7 +12,7 @@ interface Room {
 
 const fetchDirtyRooms = async () => {
     try {
-      const response = await fetch('http://localhost:8081/api/rooms/dirty-rooms');
+      const response = await fetch(`${bookingApiUrl}dirty-rooms/`);
       if (!response.ok) {
         throw new Error('Failed to fetch dirty rooms');
       }

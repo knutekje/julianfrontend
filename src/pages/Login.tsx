@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography, Box } from '@mui/material';
+import { authApiUrl } from '../uris';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login/', {
+      const response = await fetch(`${authApiUrl}login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

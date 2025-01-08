@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, List, ListItem } from '@mui/material';
+import { bookingApiUrl } from '../uris';
 
 const RoomAvailability: React.FC = () => {
   const [checkIn, setCheckIn] = useState('');
@@ -14,8 +15,9 @@ const RoomAvailability: React.FC = () => {
     }
 
     try {
+      //const response = await fetch(`${bookingApiUrl}`
       const response = await fetch(
-        `http://localhost:8082/api/bookings/available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`
+        `${bookingApiUrl}/available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`
       );
 
       if (response.ok) {
