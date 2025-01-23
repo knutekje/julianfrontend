@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { roomApiUrl } from '../uris';
+import theme from '../theme';
+
+
 
 interface Room {
   id: number;
@@ -40,13 +43,13 @@ const RoomGrid: React.FC = () => {
   const getStatusColor = (status: string): string => {
     switch (status) {
       case 'Out of Service':
-        return 'bg-red-500';
+        return theme.palette.error.main; // Use theme error color
       case 'In Need of Cleaning':
-        return 'bg-yellow-500';
+        return theme.palette.warning.main; // Use theme warning color
       case 'Clean':
-        return 'bg-green-500';
+        return theme.palette.success.main; // Use theme success color
       default:
-        return 'bg-gray-500';
+        return theme.palette.grey[400]; // Default fallback
     }
   };
 

@@ -7,3 +7,12 @@ export interface Room {
     price: number; 
   }
   
+
+  export interface Reservation {
+    id?: number; // Optional for new reservations
+    guestName: string;
+    checkInDate: string;
+    checkOutDate: string;
+    status: 'Active' | 'Canceled' | 'Completed';
+  }
+  

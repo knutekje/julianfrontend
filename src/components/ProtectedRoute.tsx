@@ -1,10 +1,8 @@
-// src/components/ProtectedRoute.tsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const token = localStorage.getItem('authToken'); // Check token in localStorage
-
+  const token = localStorage.getItem('authToken'); 
   if (!token) {
     return <Navigate to="/login" replace />;
   }

@@ -1,92 +1,109 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Typography, Box } from '@mui/material';
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  CircularProgress,
+  Alert,
+  Stack,
+} from '@mui/material';
 import { authApiUrl } from '../uris';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setLoading(true);
+    setError(null);
+
     try {
-      const response = await fetch(`${authApiUrl}login/`, {
+      const response = await fetch(`${authApiUrl}login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('authToken', data.token); // Save token in localStorage
-        navigate('/dashboard'); // Redirect to the dashboard
-      } else {
-        setError('Invalid email or password'); // Handle non-2xx responses
+      if (!response.ok) {
+        throw new Error('Invalid credentials. Please try again.');
       }
-    } catch (error) {
-      setError('Something went wrong. Please try again later.'); // Handle network errors
-      console.error('Login error:', error);
+
+      const data = await response.json();
+
+      // Save token to localStorage or a cookie (if applicable)
+      localStorage.setItem('authToken', data.token);
+
+      // Redirect to dashboard
+      navigate('/dashboard');
+    } catch (err) {
+      setError((err as Error).message || 'An unexpected error occurred.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
+    <Box
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        bgcolor: 'background.default',
+      }}
+    >
       <Box
-        className="p-6 bg-gray-800 text-white rounded shadow-lg"
-        sx={{ width: '100%', maxWidth: 400 }}
+        sx={{
+          maxWidth: 400,
+          width: '100%',
+          p: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          bgcolor: 'background.paper',
+        }}
       >
-        <Typography variant="h5" component="h1" gutterBottom className="text-center font-bold">
+        <Typography variant="h4" align="center" gutterBottom>
           Login
         </Typography>
+
         {error && (
-          <Typography
-            variant="body2"
-            className="text-red-500 text-center mb-4"
-          >
+          <Alert severity="error" sx={{ mb: 2 }}>
             {error}
-          </Typography>
+          </Alert>
         )}
-        <TextField
-          fullWidth
-          variant="outlined"
-          margin="normal"
-          label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          InputLabelProps={{ style: { color: '#bdbdbd' } }}
-          sx={{
-            input: { color: 'white' },
-            '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#bdbdbd' } },
-          }}
-        />
-        <TextField
-          fullWidth
-          variant="outlined"
-          margin="normal"
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          InputLabelProps={{ style: { color: '#bdbdbd' } }}
-          sx={{
-            input: { color: 'white' },
-            '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#bdbdbd' } },
-          }}
-        />
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={handleLogin}
-          className="mt-4"
-        >
-          Login
-        </Button>
+
+        <Stack spacing={2}>
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Login'}
+          </Button>
+        </Stack>
       </Box>
-    </div>
+    </Box>
   );
 };
 

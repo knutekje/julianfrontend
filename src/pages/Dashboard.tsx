@@ -1,72 +1,42 @@
-// src/pages/Dashboard.tsx
-import React, { useState } from 'react';
-import { Typography, Tabs, Tab, Box, Card, CardContent } from '@mui/material';
-import RoomGrid from '../components/RoomGrid';
-import OccupancyTable from '../components/OccupancyTable';
-import RoomAvailability from '../components/RoomAvailability';
-import DirtyRoomsPage from './DirtyRoomsPage';
+import React from 'react';
+import { Grid, Paper, Typography } from '@mui/material';
+import RoomGrid from '../components/RoomGrid'; // Import RoomGrid component
 
 const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
-
   return (
-    <div style={{ padding: '24px', backgroundColor: '#1e1e2d', color: '#fff' }}>
-  
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 2 }}>
-        <Tabs value={activeTab} onChange={handleTabChange} centered>
-          <Tab label="Room Status" />
-          <Tab label="Occupancy" />
-          <Tab label="Guest Arrival List" />
-          <Tab label="Current Prices" />
-          <Tab label="Summary of Today" />
-        </Tabs>
-      </Box>
-      <Box>
-        {activeTab === 0 && (
-          <Card>
-            <CardContent>
-              <RoomGrid />
-            </CardContent>
-          </Card>
-        )}
-        {activeTab === 1 && (
-          <Card className="bg-gray-800 text-white mb-4">
-            <CardContent>
-              <OccupancyTable />
-            </CardContent>
-          </Card>
-        )}
-        {activeTab === 2 && (
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Guest Arrival List</Typography>
-              Guest arrival list will be displayed here.
-              <RoomAvailability/>
-            </CardContent>
-          </Card>
-        )}
-        {activeTab === 3 && (
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Current Prices</Typography>
-              <DirtyRoomsPage/>
-            </CardContent>
-          </Card>
-        )}
-        {activeTab === 4 && (
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Summary of Today</Typography>
-              Summary of today's checkouts and in-house guests will be displayed here.
-            </CardContent>
-          </Card>
-        )}
-      </Box>
-    </div>
+    <>
+      <Grid container spacing={3}>
+        {/* Example Widgets */}
+        <Grid item xs={12} md={6} lg={4}>
+          <Paper sx={{ p: 2, textAlign: 'center', boxShadow: 3 }}>
+            <Typography variant="h6">Occupancy Rate</Typography>
+            <Typography variant="h4">94%</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <Paper sx={{ p: 2, textAlign: 'center', boxShadow: 3 }}>
+            <Typography variant="h6">Reservations Today</Typography>
+            <Typography variant="h4">23</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <Paper sx={{ p: 2, textAlign: 'center', boxShadow: 3 }}>
+            <Typography variant="h6">Available Rooms</Typography>
+            <Typography variant="h4">12</Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+
+      {/* Room Grid Section */}
+      <Grid container spacing={3} sx={{ marginTop: 4 }}>
+        <Grid item xs={12}>
+          <Typography variant="h5" sx={{ marginBottom: 2 }}>
+            Room Status
+          </Typography>
+          <RoomGrid /> {/* Add RoomGrid component */}
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

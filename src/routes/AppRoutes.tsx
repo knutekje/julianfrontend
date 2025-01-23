@@ -4,10 +4,13 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 import Availability from '../pages/Availability';
-import {Reservation} from '../pages/Reservation';
+import ReservationListPage from '../pages/ReservationListPage';
 import Layout from '../components/Layout';
 import ProtectedRoute from '../components/ProtectedRoute';
-import Booking from '../pages/BookingPage';
+import BookingPage from '../pages/BookingPage'; // Renamed for consistency
+import GuestPage from '../pages/GuestPage';
+import RoomGrid from '../components/RoomGrid';
+import { SettingsPages } from '../pages/SettingsPage';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -28,6 +31,16 @@ const AppRoutes: React.FC = () => {
           }
         />
         <Route
+          path="/reservations"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ReservationListPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/availability"
           element={
             <ProtectedRoute>
@@ -37,30 +50,49 @@ const AppRoutes: React.FC = () => {
             </ProtectedRoute>
           }
         />
+         <Route
+          path="/guests"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <GuestPage/>
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+           <Route
+          path="/rooms"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <RoomGrid/>
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/bookings"
           element={
             <ProtectedRoute>
               <Layout>
-                <Booking />
+                <BookingPage />
               </Layout>
             </ProtectedRoute>
           }
         />
-
-        <Route
-          path="/reservation"
+             <Route
+          path="/settings"
           element={
             <ProtectedRoute>
               <Layout>
-                <Reservation />
+                <SettingsPages />
               </Layout>
             </ProtectedRoute>
           }
         />
 
-        {/* Default Route: Redirect to Login */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        {/* Default Route: Redirect authenticated users to Dashboard */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
   );

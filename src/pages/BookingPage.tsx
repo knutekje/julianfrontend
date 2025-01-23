@@ -24,7 +24,7 @@ const BookingPage: React.FC = () => {
     const fetchRooms = async () => {
       if (checkIn && checkOut && new Date(checkIn) < new Date(checkOut)) {
         try {
-          const response = await fetch(`http://localhost:8082/api/bookings/available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`);
+          const response = await fetch(`${bookingApiUrl}available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`);
           if (response.ok) {
             const data: Room[] = await response.json();
             setRooms(data);

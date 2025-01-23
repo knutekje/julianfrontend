@@ -47,6 +47,12 @@ const CustomAppBar: React.FC = () => {
         >
           Bookings
         </Button>
+        <Button
+          startIcon={<BookIcon />}
+          onClick={() => navigate('/bookings')}
+        >
+          Reservation
+        </Button>
         <IconButton onClick={handleLogout}>
           <LogoutIcon />
         </IconButton>

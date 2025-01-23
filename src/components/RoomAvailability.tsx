@@ -17,7 +17,7 @@ const RoomAvailability: React.FC = () => {
     try {
       //const response = await fetch(`${bookingApiUrl}`
       const response = await fetch(
-        `${bookingApiUrl}/available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`
+        `${bookingApiUrl}available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`
       );
 
       if (response.ok) {
