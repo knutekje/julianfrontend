@@ -1,10 +1,7 @@
-// src/components/RoomGrid.tsx
 import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
 import { roomApiUrl } from '../uris';
 import theme from '../theme';
-
-
 
 interface Room {
   id: number;
@@ -22,7 +19,6 @@ const RoomGrid: React.FC = () => {
 
   const fetchRooms = async () => {
     try {
-      //${roomApiUrl}
       const response = await fetch(`${roomApiUrl}`);
       if (response.ok) {
         const data = await response.json();
@@ -30,9 +26,9 @@ const RoomGrid: React.FC = () => {
       } else {
         setError('Failed to fetch rooms. Please try again later.');
       }
-    } catch (error) {
+    } catch (err) {
       setError('An error occurred while fetching rooms.');
-      console.error('Room fetch error:', error);
+      console.error('Room fetch error:', err);
     }
   };
 
@@ -43,53 +39,77 @@ const RoomGrid: React.FC = () => {
   const getStatusColor = (status: string): string => {
     switch (status) {
       case 'Out of Service':
-        return theme.palette.error.main; // Use theme error color
+        return theme.palette.error.light; // Lighter red for a more subtle appearance
       case 'In Need of Cleaning':
-        return theme.palette.warning.main; // Use theme warning color
+        return theme.palette.warning.light; // Lighter yellow
       case 'Clean':
-        return theme.palette.success.main; // Use theme success color
+        return theme.palette.success.light; // Lighter green
       default:
-        return theme.palette.grey[400]; // Default fallback
+        return theme.palette.grey[300]; // Neutral gray for undefined statuses
     }
   };
 
   return (
-    <div className="p-6">
-      <Typography variant="h4" component="h1" className="mb-6 text-center">
-        Room Status
-      </Typography>
+    <Box sx={{ p: 4, bgcolor: theme.palette.background.default }}>
+   
 
       {error && (
-        <Typography variant="body2" className="text-red-500 text-center mb-4">
+        <Typography
+          variant="body2"
+          color="error"
+          align="center"
+          sx={{ mb: 2 }}
+        >
           {error}
         </Typography>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <Grid container spacing={3}>
         {rooms.map((room) => (
-          <Box
-            key={room.id}
-            className={`p-4 rounded shadow ${getStatusColor(room.status)}`}
-          >
-            <Typography variant="h6" className="font-bold text-white">
-              Room {room.roomNumber}
-            </Typography>
-            <Typography variant="body2" className="text-white">
-              {room.roomType}
-            </Typography>
-            <Typography variant="body2" className="text-white">
-              Capacity: {room.capacity}
-            </Typography>
-            <Typography variant="body2" className="text-white">
-              Status: {room.status}
-            </Typography>
-            <Typography variant="body2" className="text-white">
-              ${room.price.toFixed(2)}
-            </Typography>
-          </Box>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={room.id}>
+            <Card
+              sx={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: getStatusColor(room.status),
+                color: theme.palette.text.primary,
+                border: `1px solid ${theme.palette.grey[400]}`, // Embossed look
+                boxShadow: 'none', // Remove shadow for flat design
+                borderRadius: '4px', // Slightly less rounded
+              }}
+            >
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1,
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  p: 2,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  Room {room.roomNumber}
+                </Typography>
+                <Typography variant="body2">Type: {room.roomType}</Typography>
+                <Typography variant="body2">
+                  Capacity: {room.capacity}
+                </Typography>
+                <Typography variant="body2">Status: {room.status}</Typography>
+                <Typography variant="body2">
+                  Price: ${room.price.toFixed(2)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
         ))}
-      </div>
-    </div>
+      </Grid>
+    </Box>
   );
 };
 

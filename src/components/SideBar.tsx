@@ -1,23 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Toolbar,
-  Paper,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
-import { Dashboard, People, Book, Settings } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import theme from '../theme';
+import { useNavigate } from 'react-router-dom'; 
+import { Menu, Dashboard, People, Book, Settings } from '@mui/icons-material';
 
-interface SidebarProps {
-  drawerWidth: number; 
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ drawerWidth }) => {
-  const navigate = useNavigate();
+const Sidebar: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate(); 
 
   const menuItems = [
     { text: 'Dashboard', icon: <Dashboard />, path: '/dashboard' },
@@ -27,32 +24,39 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerWidth }) => {
   ];
 
   return (
-   <Paper
-  elevation={3}
-  sx={{
-    width: drawerWidth,
-    height: 'calc(100vh - 20px)',
-    position: 'fixed',
-    top: '10px',
-    left: '10px',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.background.paper,
-    color: theme.palette.text.primary,
-    boxShadow: theme.shadows[3],
-  }}
->
-      <Toolbar />
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: collapsed ? 72 : 240,
+        '& .MuiDrawer-paper': {
+          width: collapsed ? 72 : 240,
+          transition: 'width 0.3s',
+        },
+      }}
+    >
+      <IconButton
+        onClick={() => setCollapsed(!collapsed)}
+        sx={{ justifyContent: collapsed ? 'center' : 'flex-start', p: 2 }}
+      >
+        <Menu />
+      </IconButton>
       <List>
         {menuItems.map((item) => (
-          <ListItem disablePadding key={item.text}>
-            <ListItemButton onClick={() => navigate(item.path)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
+          <Tooltip
+            title={collapsed ? item.text : ''}
+            placement="right"
+            key={item.text}
+          >
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => navigate(item.path)}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                {!collapsed && <ListItemText primary={item.text} />}
+              </ListItemButton>
+            </ListItem>
+          </Tooltip>
         ))}
       </List>
-    </Paper>
+    </Drawer>
   );
 };
 

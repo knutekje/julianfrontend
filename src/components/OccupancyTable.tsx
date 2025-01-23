@@ -23,7 +23,7 @@ interface Reservation {
   checkInDate: string;
   checkOutDate: string;
   status: string;
-  additionalDetails?: string; // Add more fields as needed
+  additionalDetails?: string; 
 }
 
 const OccupancyTable: React.FC = () => {
@@ -34,7 +34,6 @@ const OccupancyTable: React.FC = () => {
   const fetchReservations = async () => {
     try {
       const response = await fetch(`${bookingApiUrl}`);
-      //const response = await fetch('http://localhost:8082/api/bookings');
       if (response.ok) {
         const data = await response.json();
         setReservations(data);
@@ -109,7 +108,6 @@ const OccupancyTable: React.FC = () => {
         </Table>
       </TableContainer>
 
-      {/* Details Dialog */}
       <Dialog open={!!selectedReservation} onClose={handleClose}>
         <DialogTitle>Reservation Details</DialogTitle>
         {selectedReservation && (

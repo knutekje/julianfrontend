@@ -1,4 +1,3 @@
-// src/components/AppBar.tsx
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
