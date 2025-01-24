@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-// Dummy data for Check-ins and Checkouts
 const checkinsData = [
   { time: '8 AM', checkIns: 5 },
   { time: '10 AM', checkIns: 8 },
@@ -48,7 +47,6 @@ const Dashboard: React.FC = () => {
         </Paper>
       </Grid>
 
-      {/* Graphs */}
       <Grid item xs={12} md={6}>
         <Paper sx={{ padding: 3, boxShadow: 3 }}>
           <Typography variant="h6" sx={{ marginBottom: 2 }}>

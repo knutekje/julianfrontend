@@ -8,9 +8,9 @@ import ReservationListPage from '../pages/ReservationListPage';
 import Layout from '../components/Layout';
 import ProtectedRoute from '../components/ProtectedRoute';
 import BookingPage from '../pages/BookingPage'; // Renamed for consistency
-import GuestPage from '../pages/GuestPage';
 import RoomGrid from '../components/RoomGrid';
 import { SettingsPages } from '../pages/SettingsPage';
+import GuestListPage from '../pages/GuestListPage';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -55,7 +55,7 @@ const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute>
               <Layout>
-                <GuestPage/>
+                <GuestListPage/>
               </Layout>
             </ProtectedRoute>
           }

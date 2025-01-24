@@ -1,31 +1,62 @@
-import React from 'react';
-import { Tabs, Tab, Box, Typography } from '@mui/material';
+import React, { ReactNode } from 'react';
+import { Box, Typography, IconButton } from '@mui/material';
+import { Close } from '@mui/icons-material';
 
 interface DetailSidebarProps {
-  details: unknown;
+  details: Record<string, ReactNode>;
+  onClose: () => void;
 }
 
-const DetailSidebar: React.FC<DetailSidebarProps> = ({ details }) => {
-  const [tabIndex, setTabIndex] = React.useState(0);
-
+const DetailSidebar: React.FC<DetailSidebarProps> = ({ details, onClose }) => {
   return (
-    <Box sx={{ width: 320, padding: 2, borderLeft: '1px solid #d3d3d3' }}>
-      <Tabs value={tabIndex} onChange={(_e, newIndex) => setTabIndex(newIndex)}>
-        <Tab label="Overview" />
-        <Tab label="History" />
-        <Tab label="Actions" />
-      </Tabs>
-      <Box sx={{ marginTop: 2 }}>
-        {tabIndex === 0 && (
-          <Typography variant="body2">
-            {details ? JSON.stringify(details, null, 2) : 'No details selected.'}
-          </Typography>
-        )}
-        {tabIndex === 1 && <Typography>History Content</Typography>}
-        {tabIndex === 2 && <Typography>Actions Content</Typography>}
+    <Box
+      sx={{
+        width: '320px',
+        height: '100vh',
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        bgcolor: '#ffffff',
+        borderLeft: '1px solid #d3d3d3',
+        boxShadow: '-2px 0px 8px rgba(0,0,0,0.1)',
+        zIndex: 1200,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 2,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 2,
+        }}
+      >
+        <Typography variant="h6">Details</Typography>
+        <IconButton onClick={onClose}>
+          <Close />
+        </IconButton>
+      </Box>
+
+      <Box
+        sx={{
+          overflowY: 'auto',
+          flexGrow: 1,
+        }}
+      >
+        {Object.entries(details).map(([key, value]) => (
+          <Box key={key} sx={{ marginBottom: 2 }}>
+            <Typography variant="body2" color="textSecondary">
+              {key}
+            </Typography>
+            <Typography variant="body1">{value}</Typography>
+          </Box>
+        ))}
       </Box>
     </Box>
   );
 };
 
 export default DetailSidebar;
+
