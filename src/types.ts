@@ -17,13 +17,13 @@ export interface Room {
   }
   
   export interface Guest {
-    id: number; // Primary Key
-    firstName: string; // First Name, required, max length 100
-    lastName: string; // Last Name, required, max length 100
-    email: string; // Email, required, max length 200, must be a valid email format
-    phoneNumber: string; // Phone Number, required, max length 15, must be a valid phone format
-    address?: string; // Optional, max length 500
-    createdAt: string; // Created date in ISO 8601 format (DateTime in C# is serialized to this in JSON)
-    updatedAt?: string | null; // Updated date in ISO 8601 format, optional
+    id: number; 
+    firstName: string; 
+    lastName: string;
+    email: string;
+    phoneNumber: string; 
+    address?: string; 
+    createdAt: string; 
+    updatedAt?: string | null; 
   }
   

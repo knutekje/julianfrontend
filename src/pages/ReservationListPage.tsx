@@ -78,7 +78,7 @@ const ReservationListPage: React.FC = () => {
                   >
                     Edit
                   </Button>
-                  {/* Add cancel logic here */}
+                
                 </TableCell>
               </TableRow>
             ))}
@@ -90,7 +90,6 @@ const ReservationListPage: React.FC = () => {
           reservation={selectedReservation}
           onClose={handleFormClose}
           onSubmit={() => {
-            // Refresh reservations after form submission
             handleFormClose();
           }}
         />

@@ -39,13 +39,13 @@ const RoomGrid: React.FC = () => {
   const getStatusColor = (status: string): string => {
     switch (status) {
       case 'Out of Service':
-        return theme.palette.error.light; // Lighter red for a more subtle appearance
+        return theme.palette.error.light; 
       case 'In Need of Cleaning':
-        return theme.palette.warning.light; // Lighter yellow
+        return theme.palette.warning.light; 
       case 'Clean':
-        return theme.palette.success.light; // Lighter green
+        return theme.palette.success.light; 
       default:
-        return theme.palette.grey[300]; // Neutral gray for undefined statuses
+        return theme.palette.grey[300]; 
     }
   };
 
@@ -74,9 +74,9 @@ const RoomGrid: React.FC = () => {
                 flexDirection: 'column',
                 backgroundColor: getStatusColor(room.status),
                 color: theme.palette.text.primary,
-                border: `1px solid ${theme.palette.grey[400]}`, // Embossed look
-                boxShadow: 'none', // Remove shadow for flat design
-                borderRadius: '4px', // Slightly less rounded
+                border: `1px solid ${theme.palette.grey[400]}`, 
+                boxShadow: 'none', 
+                borderRadius: '4px', 
               }}
             >
               <CardContent

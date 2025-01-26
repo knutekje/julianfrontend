@@ -33,7 +33,7 @@ const ReservationsPage: React.FC<{ onItemClick: (details: unknown) => void }> = 
               <TableRow
                 key={reservation.id}
                 hover
-                onClick={() => onItemClick(reservation)} // Sends reservation details to the right sidebar
+                onClick={() => onItemClick(reservation)} 
                 sx={{ cursor: 'pointer' }}
               >
                 <TableCell>{reservation.id}</TableCell>

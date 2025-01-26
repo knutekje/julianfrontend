@@ -19,7 +19,6 @@ const BookingPage: React.FC = () => {
   const [checkIn, setCheckIn] = useState<string>('');
   const [checkOut, setCheckOut] = useState<string>('');
 
-  // Automatically fetch available rooms when both dates are filled
   useEffect(() => {
     const fetchRooms = async () => {
       if (checkIn && checkOut && new Date(checkIn) < new Date(checkOut)) {
@@ -69,7 +68,7 @@ const BookingPage: React.FC = () => {
       if (response.ok) {
         alert('Booking successfully created!');
         setDialogOpen(false);
-        setRooms([]); // Optionally clear rooms after booking
+        setRooms([]); 
       } else {
         const error = await response.json();
         alert(`Failed to create booking: ${error.message || 'Unknown error'}`);
@@ -86,7 +85,7 @@ const BookingPage: React.FC = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh', // Full height of the viewport
+        height: '100vh',
         bgcolor: 'background.default',
         color: 'text.primary',
         padding: 2,
@@ -95,7 +94,7 @@ const BookingPage: React.FC = () => {
       <Stack
         spacing={2}
         sx={{
-          width: '400px', // Restrict the width
+          width: '400px', 
           textAlign: 'center',
           bgcolor: 'background.paper',
           p: 3,

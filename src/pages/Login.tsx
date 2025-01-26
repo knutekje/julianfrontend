@@ -36,10 +36,8 @@ const Login: React.FC = () => {
 
       const data = await response.json();
 
-      // Save token to localStorage or a cookie (if applicable)
       localStorage.setItem('authToken', data.token);
 
-      // Redirect to dashboard
       navigate('/dashboard');
     } catch (err) {
       setError((err as Error).message || 'An unexpected error occurred.');

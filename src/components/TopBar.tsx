@@ -8,16 +8,16 @@ const TopBar: React.FC = () => {
       sx={{
         position: 'fixed',
         top: '10px',
-        left: '260px', // Adjust to account for Sidebar width
+        left: '260px', 
         right: '10px',
         height: '64px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingX: 2,
-        border: `1px solid #d3d3d3`, // Embossed border
-        borderRadius: '4px', // Reduced rounded corners
-        boxShadow: 'none', // Flat design
+        border: `1px solid #d3d3d3`, 
+        borderRadius: '4px', 
+        boxShadow: 'none', 
         backgroundColor: '#ffffff',
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
