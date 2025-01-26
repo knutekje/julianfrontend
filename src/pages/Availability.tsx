@@ -1,4 +1,3 @@
-// src/pages/Availability.tsx
 import React, { useState } from 'react';
 import { Typography, TextField, Button  } from '@mui/material';
 
@@ -34,7 +33,6 @@ const Availability: React.FC = () => {
         Room Availability
       </Typography>
 
-      {/* Date Picker */}
       <div className="flex justify-center mb-6">
         <TextField
           type="date"

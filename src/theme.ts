@@ -30,7 +30,7 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 4, // Reduced corner radius
+    borderRadius: 4,
   },
   components: {
     MuiButton: {

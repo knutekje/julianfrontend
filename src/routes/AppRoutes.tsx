@@ -1,4 +1,3 @@
-// src/routes/AppRoutes.tsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from '../pages/Login';
@@ -7,7 +6,7 @@ import Availability from '../pages/Availability';
 import ReservationListPage from '../pages/ReservationListPage';
 import Layout from '../components/Layout';
 import ProtectedRoute from '../components/ProtectedRoute';
-import BookingPage from '../pages/BookingPage'; // Renamed for consistency
+import BookingPage from '../pages/BookingPage'; 
 import RoomGrid from '../components/RoomGrid';
 import { SettingsPages } from '../pages/SettingsPage';
 import GuestListPage from '../pages/GuestListPage';
@@ -16,10 +15,8 @@ const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {/* Public Route: Login */}
         <Route path="/login" element={<Login />} />
 
-        {/* Protected Routes */}
         <Route
           path="/dashboard"
           element={
@@ -91,7 +88,6 @@ const AppRoutes: React.FC = () => {
           }
         />
 
-        {/* Default Route: Redirect authenticated users to Dashboard */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
