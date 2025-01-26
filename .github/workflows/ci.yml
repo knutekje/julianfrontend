@@ -1,4 +1,4 @@
-name: Build, Deploy, and Push Frontend
+name: Frontend CI/CD
 
 on:
   push:
@@ -13,61 +13,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
-
-      # Install dependencies
-      - name: Install Dependencies
+          node-version: 18 
+          cache: 'npm' 
+      - name: Install dependencies
         run: npm install
 
-      # Build the React-Vite app
-      - name: Build App
+      - name: Run Linter
+        run: npm run lint
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Build Project
         run: npm run build
 
-      # Archive build artifacts
-      - name: Archive Production Files
-        uses: actions/upload-artifact@v3
-        with:
-          name: production-build
-          path: dist/
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      # Checkout the repository
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      # Download build artifacts from the previous job
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: production-build
-
-      # Build a Docker image
-      - name: Build Docker Image
-        run: |
-          docker build -t knutekje/julianfrontend:latest -f Dockerfile .
-
-      # Log in to DockerHub
-      - name: Log in to DockerHub
+      - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }} 
+          password: ${{ secrets.DOCKER_PASSWORD }} 
 
-      # Push the Docker image to DockerHub
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:latest .
+
       - name: Push Docker Image
         run: |
-          docker push knutekje/julianfrontend:latest
-
-      
+          docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
