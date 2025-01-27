@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { Reservation } from '../types'; 
 import ReservationForm from '../components/ReservationForm';
+import { reservationApiUrl } from '../uris';
 
 const ReservationListPage: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -21,7 +22,7 @@ const ReservationListPage: React.FC = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const response = await fetch('/api/reservations');
+        const response = await fetch(`${reservationApiUrl}`);
         if (response.ok) {
           const data: Reservation[] = await response.json();
           setReservations(data);

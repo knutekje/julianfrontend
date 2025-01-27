@@ -56,9 +56,7 @@ const BookingPage: React.FC = () => {
         checkOutDate: checkOut,
         status: 'Pending',
       };
-      //const response = await fetch(`${bookingApiUrl}`);
-      
-      //const response = await fetch('http://localhost:8082/api/bookings', {
+  
         const response = await fetch(`${bookingApiUrl}`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

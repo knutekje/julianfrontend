@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
-import { Reservation } from '../types'; // Shared Reservation type
+import { Reservation } from '../types'; 
 
 interface ReservationFormProps {
   reservation: Reservation | null;
