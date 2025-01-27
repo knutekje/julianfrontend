@@ -40,9 +40,9 @@ const RoomGrid: React.FC = () => {
     switch (status) {
       case 'Out of Service':
         return theme.palette.error.light; 
-      case 'In Need of Cleaning':
+      case '0':
         return theme.palette.warning.light; 
-      case 'Clean':
+      case '1':
         return theme.palette.success.light; 
       default:
         return theme.palette.grey[300]; 

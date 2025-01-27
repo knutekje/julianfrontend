@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; 
-import { Menu, Dashboard, People, Book, Settings } from '@mui/icons-material';
+import { Menu, Dashboard, People, Book, Settings, RoomService } from '@mui/icons-material';
 
 const Sidebar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -21,6 +21,8 @@ const Sidebar: React.FC = () => {
     { text: 'Reservations', icon: <Book />, path: '/reservations' },
     { text: 'Guests', icon: <People />, path: '/guests' },
     { text: 'Settings', icon: <Settings />, path: '/settings' },
+    { text: 'Rooms', icon: <RoomService />, path: '/rooms' },
+    
   ];
 
   return (
