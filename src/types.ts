@@ -8,14 +8,7 @@ export interface Room {
   }
   
 
-  export interface Reservation {
-    id?: number; // Optional for new reservations
-    guestName: string;
-    checkInDate: string;
-    checkOutDate: string;
-    status: 'Active' | 'Canceled' | 'Completed';
-  }
-  
+
   export interface Guest {
     id: number; 
     firstName: string; 
@@ -27,3 +20,27 @@ export interface Room {
     updatedAt?: string | null; 
   }
   
+
+export interface Booking {
+    id: number;
+    roomId: number;
+    guestId: number;
+    checkInDate: string;
+    checkOutDate: string;
+    checkedIn: boolean;
+    createdAt: string;
+    updatedAt: string;
+  }
+  
+ export interface Reservation {
+    id: number;
+    guestId: number;
+    guestName: string;
+    invoiceId: string;
+    status: number;
+    checkInDate: string;
+    checkOutDate: string;
+    createdAt: string;
+    updatedAt: string;
+    bookings: Booking[];
+  }

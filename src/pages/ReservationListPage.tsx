@@ -1,102 +1,88 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-} from '@mui/material';
-import { Reservation } from '../types'; 
-import ReservationForm from '../components/ReservationForm';
-import { reservationApiUrl } from '../uris';
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Box,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Reservation } from "../types";
 
-const ReservationListPage: React.FC = () => {
+
+
+const ReservationList: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
-  const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
-  const [formOpen, setFormOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const response = await fetch(`${reservationApiUrl}`);
-        if (response.ok) {
-          const data: Reservation[] = await response.json();
-          setReservations(data);
-        } else {
-          console.error('Failed to fetch reservations');
+        const response = await fetch("/api/reservations"); 
+        if (!response.ok) {
+          throw new Error("Failed to fetch reservations.");
         }
-      } catch (error) {
-        console.error('Error fetching reservations:', error);
+        const data: Reservation[] = await response.json();
+        setReservations(data);
+      } catch (err) {
+        console.log(err)
+        setError("Error fetching reservations.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchReservations();
   }, []);
 
-  const handleEditClick = (reservation: Reservation) => {
-    setSelectedReservation(reservation);
-    setFormOpen(true);
-  };
-
-  const handleFormClose = () => {
-    setSelectedReservation(null);
-    setFormOpen(false);
-  };
+  if (loading) return <Typography>Loading reservations...</Typography>;
+  if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <div>
-      <Typography variant="h4" gutterBottom>
+    <Box sx={{ width: "100%", maxWidth: 800, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" align="center" sx={{ mb: 3 }}>
         Reservations
       </Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Guest Name</TableCell>
-              <TableCell>Check-In Date</TableCell>
-              <TableCell>Check-Out Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {reservations.map((reservation) => (
-              <TableRow key={reservation.id}>
-                <TableCell>{reservation.guestName}</TableCell>
-                <TableCell>{new Date(reservation.checkInDate).toLocaleDateString()}</TableCell>
-                <TableCell>{new Date(reservation.checkOutDate).toLocaleDateString()}</TableCell>
-                <TableCell>{reservation.status}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                    onClick={() => handleEditClick(reservation)}
-                  >
-                    Edit
-                  </Button>
-                
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {formOpen && (
-        <ReservationForm
-          reservation={selectedReservation}
-          onClose={handleFormClose}
-          onSubmit={() => {
-            handleFormClose();
-          }}
-        />
-      )}
-    </div>
+
+      {reservations.map((reservation) => (
+        <Accordion key={reservation.id}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">
+              Guest: {reservation.guestName} | Invoice: {reservation.invoiceId}
+            </Typography>
+          </AccordionSummary>
+
+          <AccordionDetails>
+            <Typography variant="subtitle1">Bookings:</Typography>
+            <List>
+              {reservation.bookings.map((booking) => (
+                <React.Fragment key={booking.id}>
+                  <ListItem>
+                    <ListItemText
+                      primary={`Room: ${booking.roomId} | Checked In: ${
+                        booking.checkedIn ? "Yes" : "No"
+                      }`}
+                      secondary={`Check-in: ${new Date(
+                        booking.checkInDate
+                      ).toLocaleString()} | Check-out: ${new Date(
+                        booking.checkOutDate
+                      ).toLocaleString()}`}
+                    />
+                  </ListItem>
+                  <Divider />
+                </React.Fragment>
+              ))}
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+    </Box>
   );
 };
 
-export default ReservationListPage;
+export default ReservationList;
