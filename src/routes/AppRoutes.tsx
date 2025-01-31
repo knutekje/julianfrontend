@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 import Availability from '../pages/Availability';
-import ReservationListPage from '../pages/ReservationListPage';
 import Layout from '../components/Layout';
 import ProtectedRoute from '../components/ProtectedRoute';
 import BookingPage from '../pages/BookingPage'; 
 import RoomGrid from '../components/RoomGrid';
 import { SettingsPages } from '../pages/SettingsPage';
 import GuestListPage from '../pages/GuestListPage';
+import ReservationList from '../pages/ReservationListPage';
+import BookingForm from '../components/ReservationForm';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -32,7 +33,7 @@ const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute>
               <Layout>
-                <ReservationListPage />
+                <ReservationList/>
               </Layout>
             </ProtectedRoute>
           }
@@ -56,6 +57,16 @@ const AppRoutes: React.FC = () => {
               </Layout>
             </ProtectedRoute>
           }
+        />
+        <Route 
+        path="/form"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <BookingForm/>
+            </Layout>
+          </ProtectedRoute>
+        }
         />
            <Route
           path="/rooms"

@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Reservation } from "../types";
+import { reservationApiUrl } from "../uris";
 
 
 
@@ -23,7 +24,7 @@ const ReservationList: React.FC = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const response = await fetch("/api/reservations"); 
+        const response = await fetch(`${reservationApiUrl}`); 
         if (!response.ok) {
           throw new Error("Failed to fetch reservations.");
         }
